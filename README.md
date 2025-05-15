@@ -52,20 +52,27 @@ npm install
 cd ..
 ```
 
-3. Create a `.env` file in the root directory with your OMDB API key
+3. Create a `.env` file in the root of your backend and frontend folder
+Backend `.env`
 ```
 OMDB_API_KEY=your_api_key_here
 PORT=5000
+ALLOWED_ORIGINS=your_front_end_url
+```
+Frontend `.env`
+
+```
+VITE_BASE_URL=your_host_url
 ```
 
 4. Start the development server
 ```bash
-# Run both frontend and backend concurrently
+# Run backend server
 cd api
 npm run dev
 cd ..
 
-# Or run them separately
+# Run frontend server
 cd frontend
 npm run server
 cd ..
@@ -90,7 +97,7 @@ cd ..
 - **POST** `/api/movies/toggle-favorite`
   - Description: Adds or remove a movie to/from favorites
   - Request Body: Movie object to add
-  - Unique clientId stored in the local storage
+    Unique clientId stored in the local storage
   - Response: Updated array of favorite movies
 
 ## 💡 Implementation Details
