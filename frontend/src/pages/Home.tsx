@@ -1,7 +1,6 @@
 import type React from "react"
 import { useEffect, useMemo, useState } from "react"
 import MovieCard from "@/components/MovieCard"
-import type { IMovie } from "@/types/movie"
 import { getMovies } from "@/services/getMovies"
 import Pagination from '@mui/material/Pagination';
 import { SearchInput } from "@/components/Search"
