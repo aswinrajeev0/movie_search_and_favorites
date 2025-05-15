@@ -9,7 +9,7 @@ export default function BackToHomeButton() {
     return (
         <Button
             variant="outline"
-            className="flex items-center gap-2"
+            className="flex items-center gap-2 text-black"
             onClick={() => navigate(-1)}
         >
             <Home className="h-4 w-4" />

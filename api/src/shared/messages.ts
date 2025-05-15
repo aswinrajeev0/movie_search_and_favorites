@@ -1,8 +1,8 @@
 export enum SUCCESS_MESSAGES {
     FETCH_SUCCESS = "Data fetched successfully",
-    MOVIE_ADDED = "Movie added successfully",
+    MOVIE_ADDED = "Movie added to favorites",
     MOVIE_UPDATED = "Movie updated successfully",
-    MOVIE_DELETED = "Movie deleted successfully",
+    MOVIE_REMOVED = "Movie removed from favorites",
     SEARCH_COMPLETED = "Search completed successfully",
 }
 

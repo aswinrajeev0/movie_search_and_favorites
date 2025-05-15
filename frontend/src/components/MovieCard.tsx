@@ -3,39 +3,29 @@ import type { IMovie } from "@/types/movie"
 import { Heart } from "lucide-react"
 import placeholder from "@/assets/placeholder-kino.png"
 import { Button } from "@/components/ui/button"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { toggleFavorite } from "@/services/favoriteToggle"
-import { toast } from "sonner" 
+import { toast } from "sonner"
 
 interface MovieCardProps {
     movie: IMovie
     isFavorite?: boolean
-    onFavoriteToggle?: () => void
+    onFavoriteToggle?: (imdbID: string) => void
 }
 
 export default function MovieCard({ movie, isFavorite, onFavoriteToggle }: MovieCardProps) {
-    console.log(isFavorite)
     const [isFav, setIsFav] = useState(isFavorite)
-
-    useEffect(() => {
-        const storedFavorites = localStorage.getItem('movieFavorites')
-        if (storedFavorites) {
-            try {
-                const favorites = JSON.parse(storedFavorites)
-                const isMovieInFavorites = favorites.some((fav: IMovie) => fav.imdbID === movie.imdbID)
-                setIsFav(isMovieInFavorites)
-            } catch (error) {
-                console.error('Failed to parse favorites:', error)
-            }
-        }
-    }, [movie.imdbID])
 
     const handleFavoriteToggle = async () => {
         try {
-            const response = await toggleFavorite(movie.imdbID)
-            if(response.success){
+            const response = await toggleFavorite(movie)
+            if (response.success) {
                 toast(response?.message || "Update success")
-            }else{
+                if (isFav) {
+                    onFavoriteToggle && onFavoriteToggle(movie.imdbID)
+                }
+                setIsFav(!isFav)
+            } else {
                 toast(response?.message || "Something went wrong")
             }
         } catch (error) {
@@ -44,8 +34,8 @@ export default function MovieCard({ movie, isFavorite, onFavoriteToggle }: Movie
     }
 
     return (
-        <Card className="overflow-hidden transition-all hover:shadow-lg">
-            <div className="relative aspect-[2/3] w-full">
+        <Card className="bg-white/5 border border-white/10 backdrop-blur-sm rounded-lg overflow-hidden transition-all hover:shadow-md hover:scale-[1.01]">
+            <div className="relative aspect-[3/4] w-full">
                 <img
                     src={
                         movie.Poster && movie.Poster !== "N/A"
@@ -58,19 +48,21 @@ export default function MovieCard({ movie, isFavorite, onFavoriteToggle }: Movie
                 <Button
                     variant="ghost"
                     size="icon"
-                    className="absolute top-2 right-2 bg-black/50 hover:bg-black/70 rounded-full h-8 w-8 p-1.5"
+                    className="absolute top-1 right-1 bg-black/60 hover:bg-black/80 rounded-full h-6 w-6 p-1"
                     onClick={handleFavoriteToggle}
                     aria-label={isFav ? "Remove from favorites" : "Add to favorites"}
                 >
-                    <Heart className={`h-full w-full ${isFav ? 'fill-red-500 text-red-500' : 'text-white'}`} />
+                    <Heart
+                        className={`h-full w-full ${isFav ? "fill-red-500 text-red-500" : "text-white"}`}
+                    />
                 </Button>
             </div>
-            <CardContent className="p-4">
-                <h3 className="font-semibold text-lg line-clamp-1">{movie.Title}</h3>
-                <div className="flex justify-between items-center mt-1">
-                    <span className="text-muted-foreground">{movie.Year}</span>
+            <CardContent className="p-2 text-white">
+                <h3 className="font-medium text-sm line-clamp-1">{movie.Title}</h3>
+                <div className="flex justify-between items-center mt-0.5 text-xs text-gray-400">
+                    <span>{movie.Year}</span>
+                    <span className="text-xs">{movie.Type.toUpperCase()}</span>
                 </div>
-                <p className="text-sm text-muted-foreground mt-2">{movie.Type.toUpperCase()}</p>
             </CardContent>
         </Card>
     )

@@ -1,13 +1,14 @@
 import { api } from "@/api/api"
+import type { IMovie } from "@/types/movie";
 import { getOrCreateClientId } from "@/utils/clientId";
 import axios from "axios";
 
-export const toggleFavorite = async (imdbID: string) => {
+export const toggleFavorite = async (movie: IMovie) => {
     const clientId = getOrCreateClientId();
     try {
         const response = await api.put("/movies/favorite-toggle", {
-            imdbID,
-            clientId
+            clientId,
+            movie
         })
 
         return response.data;

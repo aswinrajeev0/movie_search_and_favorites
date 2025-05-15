@@ -121,5 +121,5 @@
 }
 
 body {
-  @apply bg-blue-200 text-black;
+  @apply bg-gradient-to-br from-gray-800 via-gray-900 to-black text-white;
 }

@@ -4,7 +4,7 @@ import { Search } from "lucide-react";
 
 interface SearchInputProps {
     searchQuery: string;
-    setSearchQuery: React.Dispatch<React.SetStateAction<string>>;
+    setSearchQuery: (value: string) => void;
 }
 
 export const SearchInput: React.FC<SearchInputProps> = ({ searchQuery, setSearchQuery }) => {
